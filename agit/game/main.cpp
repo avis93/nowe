@@ -1,5 +1,5 @@
 #include <iostream>
-#include "C:/Projekt/gameLib/gra.h"
+#include "C:/Projekt/gameLib/game.h"
 #include "C:/Projekt/gameLib/libgame.h"
 
 using namespace std;
