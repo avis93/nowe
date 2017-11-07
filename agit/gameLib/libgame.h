@@ -1,9 +1,27 @@
 #define libgame_h
-#include "gra.h"
+#include "game.h"
 #include <iostream>
+#include<cstdlib>
 
 Player *human = new Human();
 Player *ai = new Ai();
+
+bool drawGame(Board *board, bool wait) {
+    for (int i = 1; i <= SIZE; i++) {
+        if (board->t[i] == EMPTY) {
+            return false;
+        }
+    }
+
+    if (!wait) {
+        board->draw();
+        cout << "\nREMIS !!!\n\n";
+    }
+    return true;
+}
+
+// Algorytm rekurencyjny MINIMAX
+
 
 bool won(Board *board, Player* player, bool wait) {
     bool test;
@@ -39,22 +57,6 @@ bool won(Board *board, Player* player, bool wait) {
     return false;
 }
 
-// true jeśli wszystkie pola są zajęte (wole pole to spacja)
-
-bool drawGame(Board *board, bool wait) {
-    for (int i = 1; i <= SIZE; i++) {
-        if (board->t[i] == EMPTY) {
-            return false;
-        }
-    }
-
-    if (!wait) {
-        board->draw();
-        cout << "\nREMIS !!!\n\n";
-    }
-    return true;
-}
-
 // Algorytm rekurencyjny MINIMAX
 int minimax(Board *board, Player* player) {
     int m, mmx;
@@ -76,24 +78,49 @@ int minimax(Board *board, Player* player) {
     }
     return mmx;
 }
-
-// Funkcja wyznacza ruch dla aia.
-int aiMove(Board *board) {
+int findMove(Board *board) {
     int gameMove, m, mmx;
 
     mmx = -10;
-    for (int i = 1; i <= 9; i++) {
-        if (board->t[i] == EMPTY) {
-            board->t[i] = ai->character;
-            m = minimax(board, ai);
-            board->t[i] = EMPTY;
-            if (m > mmx) {
-                mmx = m;
-                gameMove = i;
+
+        for (int i = 1; i <= 9; i++) {
+            if (board->t[i] == EMPTY) {
+                board->t[i] = ai->character;
+                m = minimax(board, ai);
+                board->t[i] = EMPTY;
+                if (m > mmx) {
+                    mmx = m;
+                    gameMove = i;
+                }
             }
         }
-    }
     return gameMove;
+}
+
+
+
+
+// true jeśli wszystkie pola są zajęte (wole pole to spacja)
+
+
+// Funkcja wyznacza ruch dla aia.
+int aiMove(Board *board) {
+
+    int temp, gameMove,v2;
+
+
+    if((v2 = rand() % 100 + 1)<=25) {
+        temp = findMove(board);
+        cout<<v2;
+        return temp;
+    } else {
+        cout<<v2;
+        for(int i = 1 ;i <=9; i++)
+        if(board->t[i] == EMPTY && i != temp){
+            return i;
+        }
+    }
+
 }
 
 // Funkcja umo¿liwia ruch gracza
@@ -123,3 +150,4 @@ Player* gameMove(Board *board, Player *player) {
     }
     return (player->name == HUMAN) ? ai : human;
 }
+
