@@ -1,5 +1,5 @@
-#ifndef gra_h
-#define gra_h
+#ifndef game_h
+#define game_h
 #include <iostream>
 
 using namespace std;
