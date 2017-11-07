@@ -1,37 +1,45 @@
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
-#include <opencv2/opencv.hpp>
 
-using namespace cv;
 using namespace std;
+using namespace cv;
 
-/* int main(int argc, char** argv)
+int main()
 {
-	cout << "Hello World" << endl;
+   VideoCapture cap(0);
 
-	if (argc != 2)
-	{
-		printf("usage: DisplayImage.out <Image_Path>\n");
-		return -1;
-	}
+   Mat save_img;
 
-	Mat image;
-	image = imread(argv[1], 1);
+   cap >> save_img;
 
-	if (!image.data)
-	{
-		printf("No image data \n");
-		return -1;
-	}
-	namedWindow("Display Image", WINDOW_AUTOSIZE);
-	imshow("Display Image", image);
+   char Esc = 0;
 
-	waitKey(0);
+   while (Esc != 27 && cap.isOpened()) {        
+    bool Frame = cap.read(save_img);        
+    if (!Frame || save_img.empty()) {       
+        cout << "error: frame not read from webcam\n";      
+        break;                                              
+    }
+    namedWindow("save_img", CV_WINDOW_NORMAL);  
+    imshow("imgOriginal", save_img);            
+    Esc = waitKey(1);
+}
+imwrite("test.jpg",save_img); 
+}
 
 
-	system("PAUSE");
-	return 0;
-}*/
 
+
+
+
+
+
+
+
+
+/*
 int main(int, char**)
 {
 	VideoCapture cap(0); // open the default camera
@@ -52,4 +60,4 @@ int main(int, char**)
 	}
 	// the camera will be deinitialized automatically in VideoCapture destructor
 	return 0;
-}
+}*/
