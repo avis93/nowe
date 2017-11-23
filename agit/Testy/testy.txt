@@ -1,0 +1,3 @@
+test - wykrywanie O
+test2 - to niemieckie coœ
+test3 - linie (projekt jest w build4)
