@@ -1,6 +1,6 @@
 #define libgame_h
 #include "cameralib.h"
-#include "gra.h"
+#include "game.h"
 #include <iostream>
 
 Player *human = new Human();
