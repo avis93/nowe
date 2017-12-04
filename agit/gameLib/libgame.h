@@ -1,27 +1,10 @@
 #define libgame_h
-#include "game.h"
+#include "cameralib.h"
+#include "gra.h"
 #include <iostream>
-#include<cstdlib>
 
 Player *human = new Human();
 Player *ai = new Ai();
-
-bool drawGame(Board *board, bool wait) {
-    for (int i = 1; i <= SIZE; i++) {
-        if (board->t[i] == EMPTY) {
-            return false;
-        }
-    }
-
-    if (!wait) {
-        board->draw();
-        cout << "\nREMIS !!!\n\n";
-    }
-    return true;
-}
-
-// Algorytm rekurencyjny MINIMAX
-
 
 bool won(Board *board, Player* player, bool wait) {
     bool test;
@@ -57,6 +40,22 @@ bool won(Board *board, Player* player, bool wait) {
     return false;
 }
 
+// true jeśli wszystkie pola są zajęte (wole pole to spacja)
+
+bool drawGame(Board *board, bool wait) {
+    for (int i = 1; i <= SIZE; i++) {
+        if (board->t[i] == EMPTY) {
+            return false;
+        }
+    }
+
+    if (!wait) {
+        board->draw();
+        cout << "\nREMIS !!!\n\n";
+    }
+    return true;
+}
+
 // Algorytm rekurencyjny MINIMAX
 int minimax(Board *board, Player* player) {
     int m, mmx;
@@ -78,30 +77,6 @@ int minimax(Board *board, Player* player) {
     }
     return mmx;
 }
-int findMove(Board *board) {
-    int gameMove, m, mmx;
-
-    mmx = -10;
-
-        for (int i = 1; i <= 9; i++) {
-            if (board->t[i] == EMPTY) {
-                board->t[i] = ai->character;
-                m = minimax(board, ai);
-                board->t[i] = EMPTY;
-                if (m > mmx) {
-                    mmx = m;
-                    gameMove = i;
-                }
-            }
-        }
-    return gameMove;
-}
-
-
-
-
-// true jeśli wszystkie pola są zajęte (wole pole to spacja)
-
 
 // Funkcja wyznacza ruch dla aia.
 int aiMove(Board *board) {
@@ -109,8 +84,8 @@ int aiMove(Board *board) {
     int temp, gameMove,v2;
 
 
-    if((v2 = rand() % 100 + 1)<=25) {
-        temp = findMove(board);
+    if((v2 = rand() % 100 + 1; )<=25) {
+        temp = findMove();
         cout<<v2;
         return temp;
     } else {
@@ -133,7 +108,7 @@ Player* gameMove(Board *board, Player *player) {
     if (player->name == HUMAN) {
             cout << "\nCZLOWIEK : wybiera ruch : ";
         do {
-            cin >> r;
+            r = CameraVision();
             if(board->t[r] != EMPTY){
                 cout << "To pole jest juz zajete. Wybierz jeszcze raz:";
             } else{
@@ -151,3 +126,21 @@ Player* gameMove(Board *board, Player *player) {
     return (player->name == HUMAN) ? ai : human;
 }
 
+int findMove() {
+    int gameMove, m, mmx;
+
+    mmx = -10;
+
+        for (int i = 1; i <= 9; i++) {
+            if (board->t[i] == EMPTY) {
+                board->t[i] = ai->character;
+                m = minimax(board, ai);
+                board->t[i] = EMPTY;
+                if (m > mmx) {
+                    mmx = m;
+                    gameMove = i;
+                }
+            }
+        }
+    return gameMove;
+}
